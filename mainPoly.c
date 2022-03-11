@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "listChainee.h"
+#include "implementationPolynome.h"
 #include <unistd.h>
 int main(int argc, char const *argv[])
 {
@@ -15,13 +15,13 @@ int main(int argc, char const *argv[])
 
   do
   {
-    printf("le nbr des elements a entrer : ");
+    printf("le nbr des elements a insere : ");
     scanf("%d", &nbr);
   } while (nbr < 0);
 
   for (int i = 0; i < nbr; i++)
   {
-    printf("entrez la cuiffision %d: ", i + 1);
+    printf("entrez le coefficient %d: ", i + 1);
     scanf("%f", &m.c);
     poly = ajouterEnFin(poly, m);
     m.d = m.d+1;
@@ -35,17 +35,18 @@ int main(int argc, char const *argv[])
 
   do
   {
+    poly1:
     system("cls");
     printf("1) ajouter un monome ...\n");
     printf("2) afficher polynome ...\n");
     printf("3) les operation sur le polynome ...\n");
-
+    printf("4) quiter ...\n");
     printf("entrez votre choix ? ");
     scanf("%d", &choix);
     switch (choix)
     {
     case 1:
-       printf("entrez la coefficient : ");
+       printf("entrez le coefficient : ");
     scanf("%f", &m.c);
     printf("entrez la degre : ");
     scanf("%d", &m.d);
@@ -53,7 +54,7 @@ int main(int argc, char const *argv[])
       break;
        case 2:
        
-        afficherList(poly);
+        afficherPoly(poly);
         printf("\n");
         getchar();
         getchar();
@@ -90,32 +91,44 @@ int main(int argc, char const *argv[])
     {
     case 1:
       poly3 = additionPoly(poly, poly1, poly3);
-        afficherList(poly3);
+        afficherPoly(poly3);
         printf("\n");
         getchar();
         getchar();
+        poly3 = supprimerPoly(poly3);
       break;
        case 2:
-        //produit
+        poly3 = produitPoly(poly, poly1, poly3);
+        afficherPoly(poly3);
+        printf("\n");
+        getchar();
+        getchar();
+        poly3 = supprimerPoly(poly3);
       break;
        case 3:
         printf("poly 1 : ");
-        afficherList(poly);
+        afficherPoly(poly);
         printf("\n");
         printf("poly 2 : ");
-        afficherList(poly1);
+        afficherPoly(poly1);
         printf("\n");
         getchar();
         getchar();
       break;
        case 4:
-      break;
+      goto poly1;
       break;
     default:
       printf("erreur de saisie ...\n");
       break;
     }
   } while (1);
+      break;
+      case 4:
+      printf("merci ......\n");
+      getchar();
+      getchar();
+      return 0;
       break;
     default:
       printf("erreur de saisie ...\n");
