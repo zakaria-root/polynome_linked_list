@@ -39,7 +39,8 @@ int main(int argc, char const *argv[])
     printf("2) afficher polynome ...\n");
     printf("3) les operation sur le polynome ...\n");
     printf("4) deriver d'une polynome ...\n");
-    printf(") quiter ...\n");
+    printf("5) integrale d'une polynome ...\n");
+    printf("6) quiter ...\n");
     printf("entrez votre choix ? ");
     scanf("%d", &choix);
     switch (choix)
@@ -132,6 +133,14 @@ int main(int argc, char const *argv[])
       getchar();
       break;
     case 5:
+      poly_t *poly4 = NULL;
+      poly4 = integralePoly(poly, poly4);
+      afficherPoly(poly4);
+      printf("\n");
+      getchar();
+      getchar();
+      break;
+    case 6:
       printf("merci ......\n");
       getchar();
       getchar();

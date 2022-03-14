@@ -172,17 +172,44 @@ poly_t *deriverPoly(poly_t *debut, poly_t *poly2)
   if (debut != NULL)
   {
     poly_t *temp = debut;
-    temp = temp->suive;
     while (temp != NULL)
     {
-      monome_t m;
-      m.c = temp->element.c * temp->element.d;
-      m.d = temp->element.d - 1;
-      poly2 = ajouterEnFin(poly2, m);
+      if (temp->element.d != 0)
+      {
+        monome_t m;
+        m.c = temp->element.c * temp->element.d;
+        m.d = temp->element.d - 1;
+        poly2 = ajouterEnFin(poly2, m);
+      }
       temp = temp->suive;
     }
     return poly2;
   }
+  return debut;
 }
 
-// -------------------- DERIVER POLYNOME ----------------------------
+// -------------------- DERIVER DU POLYNOME ----------------------------
+
+poly_t *integralePoly(poly_t *debut, poly_t *poly2)
+{
+  if (debut != NULL)
+  {
+    poly_t *temp = debut;
+    while (temp != NULL)
+    {
+      monome_t mon;
+
+      if (temp->element.d > 1)
+        mon.c = temp->element.c / temp->element.d;
+      else
+        mon.c = temp->element.c;
+      mon.d = temp->element.d + 1;
+      poly2 = ajouterEnFin(poly2, mon);
+      temp = temp->suive;
+    }
+    return poly2;
+  }
+  return debut;
+}
+
+// -------------------- INTEGRALE DU POLYNOME ----------------------------
