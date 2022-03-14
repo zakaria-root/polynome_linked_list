@@ -17,6 +17,7 @@ poly_t *ajouterEnFin(poly_t *, monome_t);
 poly_t *additionPoly(poly_t*, poly_t*, poly_t*);
 poly_t* produitPoly(poly_t*, poly_t*,poly_t*);
 poly_t* supprimerPoly(poly_t*);
+poly_t* deriverPoly(poly_t*, poly_t*);
 void afficherPoly(poly_t *);
 
 #endif
