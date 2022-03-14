@@ -178,12 +178,11 @@ poly_t *deriverPoly(poly_t *debut, poly_t *poly2)
       monome_t m;
       m.c = temp->element.c * temp->element.d;
       m.d = temp->element.d - 1;
-      poly2 = creerMonome(temp->element);
-      poly2 = poly2->suive;
+      poly2 = ajouterEnFin(poly2, m);
       temp = temp->suive;
     }
+    return poly2;
   }
-  return poly2;
 }
 
 // -------------------- DERIVER POLYNOME ----------------------------
