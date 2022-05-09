@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "implementationPolynome.h"
 #include <unistd.h>
-#define CLEAR_TERMINAL "clear"
+#define CLEAR_TERMINAL "cls"
 int main(int argc, char const *argv[])
 {
   int nbr;
@@ -76,10 +76,13 @@ int main(int argc, char const *argv[])
         poly1 = ajouterEnFin(poly1, m1);
         m1.d = m1.d + 1;
       }
+      poly_t *poly2;
+      poly_t *poly4;
       do
       {
         system(CLEAR_TERMINAL);
         poly_t *poly3 = NULL;
+
         printf("1) l'addition des deux polynomes ...\n");
         printf("2) poduit des deux polynomes ...\n");
         printf("3) afficher les deux polynomes...\n");
@@ -125,7 +128,8 @@ int main(int argc, char const *argv[])
       } while (1);
       break;
     case 4:
-      poly_t *poly2 = NULL;
+      poly2 = NULL;
+
       poly2 = deriverPoly(poly, poly2);
       afficherPoly(poly2);
       printf("\n");
@@ -133,7 +137,7 @@ int main(int argc, char const *argv[])
       getchar();
       break;
     case 5:
-      poly_t *poly4 = NULL;
+      poly4 = NULL;
       poly4 = integralePoly(poly, poly4);
       afficherPoly(poly4);
       printf("\n");

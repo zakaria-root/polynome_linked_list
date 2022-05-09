@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "polynome.h"
-
+#include "assert.h"
 poly_t *creerMonome(monome_t element)
 {
+  assert(element.d >= 0);
   poly_t *p;
   p = (poly_t *)malloc(sizeof(poly_t));
   p->element.c = element.c;
@@ -22,28 +23,52 @@ poly_t *additionPoly(poly_t *poly1, poly_t *poly2, poly_t *poly3)
     return poly1;
   poly3 = NULL;
 
-  monome_t element;
-  element.d = 0;
+  monome_t element1;
+  monome_t element2;
   poly_t *temp1 = poly1;
   poly_t *temp2 = poly2;
+  int egaux;
   while (temp1 != NULL || temp2 != NULL)
   {
+    egaux = 1;
     if (temp1 == NULL)
-      element.c = temp2->element.c;
+    {
+      element1.c = temp2->element.c;
+      element1.d = temp2->element.d;
+    }
 
     if (temp2 == NULL)
-      element.c = temp1->element.c;
+    {
+      element1.c = temp1->element.c;
+      element1.d = temp1->element.d;
+    }
 
     if (temp1 != NULL && temp2 != NULL)
-      element.c = temp1->element.c + temp2->element.c;
+    {
+      if (temp1->element.d == temp2->element.d)
+      {
+        element1.c = temp1->element.c + temp2->element.c;
+        element1.d = temp2->element.d;
+      }
+      else
+      {
+        element1.c = temp1->element.c;
+        element1.d = temp1->element.d;
+        element2.c = temp2->element.c;
+        element2.d = temp2->element.d;
+        egaux = 0;
+      }
+    }
 
-    if (element.c != 0)
-      poly3 = ajouterEnFin(poly3, element);
+    if (element1.c != 0)
+      poly3 = ajouterEnFin(poly3, element1);
+    if (egaux == 0)
+      poly3 = ajouterEnFin(poly3, element2);
+
     if (temp1 != NULL)
       temp1 = temp1->suive;
     if (temp2 != NULL)
       temp2 = temp2->suive;
-    element.d += 1;
   }
 
   return poly3;
@@ -85,13 +110,6 @@ poly_t *ajouterEnFin(poly_t *debut, monome_t element)
   else
   {
     poly_t *temp = debut;
-    if (temp->element.d == element.d)
-    {
-      debut = debut->suive;
-      free(temp);
-      return debut;
-    }
-
     poly_t *pred = NULL;
     while (temp != NULL && temp->element.d != element.d)
     {
@@ -110,9 +128,21 @@ poly_t *ajouterEnFin(poly_t *debut, monome_t element)
       return debut;
     }
     temp = debut;
-    while (temp->suive != NULL)
+    pred = NULL;
+    while (temp != NULL && temp->element.d <= element.d)
+    {
+      pred = temp;
       temp = temp->suive;
-    temp->suive = noeud;
+    }
+    if (temp != NULL)
+    {
+      noeud->suive = temp;
+      pred->suive = noeud;
+    }
+    else
+    {
+      pred->suive = noeud;
+    }
   }
   return debut;
 }
@@ -199,8 +229,8 @@ poly_t *integralePoly(poly_t *debut, poly_t *poly2)
     {
       monome_t mon;
 
-      if (temp->element.d > 1)
-        mon.c = temp->element.c / temp->element.d;
+      if (temp->element.d > 0)
+        mon.c = temp->element.c / (temp->element.d + 1);
       else
         mon.c = temp->element.c;
       mon.d = temp->element.d + 1;
